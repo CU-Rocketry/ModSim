@@ -7,4 +7,6 @@ MODSIM Code Breakdown
   5. Calculate properties at sim time
   6. calculate forces
 7. Iteration Loop
-8. s 
+8. Evaulate if loop runs
+9. Save Data
+   
