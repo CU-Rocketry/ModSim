@@ -2,10 +2,15 @@
 
 
 ## Equations
+Kinematic Equations
+1. V = Vo + at
+2. deltax = ( (v + vo)/2 ) t
+3. deltax = Vot 
+
+Thrust Equation
+T = 
 
 ### Code Breakdown
-
-
 1. Define variables
 2. Calculate parameters + variable set up
 3. Simulation parameters
