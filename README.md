@@ -1,7 +1,10 @@
 # PROJECT DESCRIPTION H1
 
 
-## Code Breakdown
+## Equations
+
+### Code Breakdown
+
 
 1. Define variables
 2. Calculate parameters + variable set up
