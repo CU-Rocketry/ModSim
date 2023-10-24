@@ -6,7 +6,8 @@
 Kinematic Equations
 1. V = Vo + at
 2. deltax = ( (v + vo)/2 ) t
-3. deltax = Vot 
+3. deltax = Vot + (1/2 * a * t^2 )
+4. v^2 = vo^2 (2 * a * deltax)
 
 Thrust Equation
 T = v ( dm / dt)
