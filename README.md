@@ -8,7 +8,7 @@ Kinematic Equations
 3. deltax = Vot 
 
 Thrust Equation
-T = 
+T = v ( dm / dt)
 
 ### Code Breakdown
 1. Define variables
