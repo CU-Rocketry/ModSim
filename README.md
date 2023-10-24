@@ -10,7 +10,7 @@ Kinematic Equations
 Thrust Equation
 T = v ( dm / dt)
 
-### Code Breakdown
+## Code Breakdown
 1. Define variables
 2. Calculate parameters + variable set up
 3. Simulation parameters
