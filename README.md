@@ -3,7 +3,6 @@
 
 
 ## Equations
-#f03c15
 Kinematic Equations
 1. V = Vo + at
 2. deltax = ( (v + vo)/2 ) t
