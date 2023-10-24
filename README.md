@@ -11,6 +11,9 @@ Kinematic Equations
 Thrust Equation
 T = v ( dm / dt)
 
+Initial Rocket Mass = mass of components + mass of fuel
+Rocket Mass at ECO = mass of dry rocket + mass of engine caseing
+
 ## Code Breakdown
 1. Define variables
 2. Calculate parameters + variable set up
