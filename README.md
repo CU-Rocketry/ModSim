@@ -27,3 +27,9 @@ Rocket Mass at ECO = mass of dry rocket + mass of engine caseing
 8. Evaulate if loop runs
 9. Save Data
    
+## List of Assumptions
+
+1. Thrust is constant
+2. Acceleration (z+) ends after motor burnout
+
+
