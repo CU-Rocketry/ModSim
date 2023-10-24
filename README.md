@@ -3,7 +3,7 @@
 
 
 ## Equations
-![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) #Kinemtaic Equations
+![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) #Kinematic Equations
 1. V = Vo + at
 2. deltax = ( (v + vo)/2 ) t
 3. deltax = Vot + (1/2 * a * t^2 )
