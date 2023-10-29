@@ -1,4 +1,4 @@
-%% 1-DOF Prewriting Example
+%% 1-DOF Skeleton
 
 clc
 clear
@@ -12,7 +12,7 @@ motor_burn_time = 1; % [s]
 g = 9.81; % [m/s^2]
 rho = 1.225; % [kg/m^3]
 
-steps = 145;
+steps = 145; %number of steps
 
 % Calculate Parameters/ Variable Setup
 time = zeros(1,steps);
@@ -24,7 +24,7 @@ z = 0;
 z_dot = 0;
 z_dot_dot = 0;
 
-t = 0;
+t = 0; %[s]
 
 
 % Run the simulation
@@ -57,8 +57,8 @@ for i = 1:steps
     %% Calculate z and z_dot for the next timestep
     z_dot = z_dot + z_dot_dot * dT;
     z = z + z_dot * dT;
-    zMat(i) = z;
-    time(i) = t;
+    zMat(i) = z; [matrix of altitude over time]
+    time(i) = t; [matrix of time]
    
     %% Evaluate if sim continues
 end
