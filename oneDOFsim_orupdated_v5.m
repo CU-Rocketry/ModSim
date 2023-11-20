@@ -117,7 +117,7 @@ end
 
 
 %% Load Reference Data and Plot to Compare
-or_data = readtable("all_data_2.csv");
+or_data = readtable(fullfile('or_sim_data', 'all_data_2.csv'));
 
 or_time = table2array(or_data(:,"x_Time_s_"))';
 or_z = table2array(or_data(:, "Altitude_m_"))';
