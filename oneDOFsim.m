@@ -1,29 +1,48 @@
 %% 1-DOF Simulation Environment for 2024 SAC
 
-clc
 clear
 
+% TODO
+% - load more parameters from the motor file
+
 % Define Variables
-Cd = 0.46;               % [unitless] Rocket total Cd
 M_dry = 21.975;          % [kg] Dry mass of rocket
-A = 0.01266;             % [m^2] Rocket cross sectional area
-motor_thrust = 1600;     % [N] Motor avg thrust
-motor_wet_mass = 6.913;  % [kg] Mass with full fuel
-motor_dry_mass = 2.88;   % [kg] Mass with no fuel
-motor_burn_time = 4.25;  % [s] Motor burn time
+Cd = 0.46;               % [unitless] Rocket total Cd
+r_airfame = 0.0635;      % [m] Airfame Radius
+h_fins = 0.1016;         % [m] Fin Height
+t_fins = 0.0047625;      % [m] Fin Thickness
+N_fins = 4;              % Number of Fins
+
+motor_fname = 'thrust_curves/Cesaroni_9994M3400-P.rse';
+motor_wet_mass = 8.108;   % [kg] Mass with no fuel
+motor_prop_mass = 4.766;  % [kg] Mass of prop
+motor_dry_mass = motor_wet_mass - motor_prop_mass;
+
 g = 9.81;                % [m/s^2] Gravity
 
-sim_end_time = 60;
-
-% Initial Conditions
-dT = 0.1; % [s]
+% Simulation Initial Conditions + Parameters
+dT = 0.005; % [s]
 z = 0;
 z_dot = 0;
 z_dot_dot = 0;
 
+sim_end_time = 60;
 t = 0;
 
-% Calculate Parameters/ Variable Setup/ Recorders
+% Calculate Parameters
+A_fuselage = pi * r_airfame ^ 2;
+A_fins = h_fins * t_fins * N_fins;
+
+A = A_fuselage + A_fins; % [m^2] Rocket cross sectional area
+
+motor = motor_generator(dT, motor_fname);
+time_lookup = motor.time;
+thrust_lookup = motor.thrust_lookup;
+prop_mass_lookup = motor.prop_mass_lookup;
+
+motor_burn_time = max(time_lookup); % [s] Motor burn time
+
+% Recorder Setup
 time = [];
 r_z = [];
 r_z_dot = [];
@@ -63,8 +82,8 @@ while cont_bool
 
     % Motor Thrust and Mass
     if t >= 0 && t <= motor_burn_time
-        Th = motor_thrust;
-        motor_mass = t * (motor_dry_mass - motor_wet_mass) / motor_burn_time + motor_wet_mass;
+        Th = thrust_lookup(iter);
+        motor_mass = prop_mass_lookup(iter) + motor_dry_mass;
     else
         Th = 0;
         motor_mass = motor_dry_mass; %[kg]
@@ -103,7 +122,7 @@ while cont_bool
 
    
     %% Evaluate if sim continues
-    if t < sim_end_time && z > 0
+    if (t < sim_end_time && z > 0) || (iter < 5)
         % when sim is good to continue
         cont_bool = true;
     else
@@ -117,7 +136,7 @@ end
 
 
 %% Load Reference Data and Plot to Compare
-or_data = readtable(fullfile('or_sim_data', 'all_data_2.csv'));
+or_data = readtable(fullfile('or_sim_data', 'all_data_3.csv'));
 
 or_time = table2array(or_data(:,"x_Time_s_"))';
 or_z = table2array(or_data(:, "Altitude_m_"))';
@@ -149,7 +168,7 @@ if true
 
     % acceleration
     figure(3)
-    plot(time, r_z_dot_dot, or_time, or_z_dot_dot)
+    plot(time, abs(r_z_dot_dot), or_time, or_z_dot_dot)
     title('Acceleration (m/s^2)')
     legend("1 DoF", "OpenRocket")
 end
@@ -170,7 +189,7 @@ end
 
 
 %% Thrust
-if false
+if true
     figure(6)
     plot(time, r_Th, or_time, or_thrust)
     title('Thrust (N)')
@@ -179,7 +198,7 @@ end
 
 
 %% Drag
-if false
+if true
     figure(7)
     plot(time, r_Cd, or_time, or_drag_coefficient)
     title('Drag Coefficient')
@@ -209,3 +228,14 @@ if false
     title('Mach Number')
     legend("1 DoF", "OpenRocket")
 end
+
+
+%% Flight Analysis
+or_apogee = max(or_z);
+sim_apogee = max(r_z);
+pct_diff_apogee = abs(or_apogee - sim_apogee) / or_apogee * 100;
+
+disp(['OpenRocket Apogee: ' num2str(or_apogee)])
+disp(['1 DOF Apogee: ' num2str(sim_apogee)])
+disp(['Pct. Difference: ' num2str(pct_diff_apogee) ' %'])
+
