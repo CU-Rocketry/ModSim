@@ -4,6 +4,7 @@ clear
 
 % TODO
 % - load more parameters from the motor file
+% - recorder for thruster force
 
 % Define Variables
 M_dry = 21.975;          % [kg] Dry mass of rocket
@@ -19,6 +20,10 @@ motor_prop_mass = 4.766;  % [kg] Mass of prop
 motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
+
+%C.G Thrusters Parameters
+thruster_burn_time = 1; % [s]
+thruster_thrust = 60; % [N]
 
 % Simulation Initial Conditions + Parameters
 dT = 0.005; % [s]
@@ -56,6 +61,7 @@ r_Th = [];
 r_Cd = [];
 r_Fd = [];
 r_Mach = [];
+r_thruster_thrust = [];
 
 % Run the simulation
 iter = 0;
@@ -93,8 +99,22 @@ while cont_bool
     M = M_dry + motor_mass;
     W = M*g;
 
+    % C.G. Thruster Force
+    if (t > motor_burn_time) && (t < motor_burn_time + thruster_burn_time)
+        % Thrusters are on
+        Th_CG = thruster_thrust;
+    else
+        % Thrusters are off
+        Th_CG = 0;
+    end
+
+    if z_dot > 0
+        % burn direction is opposite the velocity vector
+        Th_CG = -1 * Th_CG;
+    end
+
     % Solve governing eqn for z_dot_dot
-    z_dot_dot = (Th + Fd - W)/M;
+    z_dot_dot = (Th + Fd + Th_CG - W)/M;
 
     % Calculate any other additional parameters
     mach = z_dot / a;
@@ -114,6 +134,7 @@ while cont_bool
     r_Cd(iter) = Cd;
     r_Fd(iter) = Fd;
     r_Mach(iter) = mach;
+    r_thruster_thrust(iter) = Th_CG;
 
 
     %% Calculate z and z_dot for the next timestep
@@ -156,86 +177,85 @@ or_pressure = table2array(or_data(:,"AirPressure_mbar_"))';
 if true
     % position
     figure(1)
-    plot(time, r_z, or_time, or_z)
+    plot(time, r_z)
     title('Position (m)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 
     % velocity
     figure(2)
-    plot(time, r_z_dot, or_time, or_z_dot)
+    plot(time, r_z_dot)
     title('Velocity (m/s)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 
     % acceleration
     figure(3)
-    plot(time, abs(r_z_dot_dot), or_time, or_z_dot_dot)
+    plot(time, abs(r_z_dot_dot))
     title('Acceleration (m/s^2)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Mass
 if false
     figure(4)
-    plot(time, r_M, or_time, or_mass/1000)
+    plot(time, r_M)
     title('Mass (kg)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 
     figure(5)
-    plot(time, r_motor_mass, or_time, or_motor_mass/1000)
+    plot(time, r_motor_mass)
     title('Mass (kg)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Thrust
 if true
     figure(6)
-    plot(time, r_Th, or_time, or_thrust)
+    plot(time, r_Th)
     title('Thrust (N)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Drag
-if true
+if false
     figure(7)
-    plot(time, r_Cd, or_time, or_drag_coefficient)
+    plot(time, r_Cd)
     title('Drag Coefficient')
     legend("1 DoF", "OpenRocket")
 
     figure(8)
-    plot(time, abs(r_Fd), or_time, or_drag_force)
+    plot(time, abs(r_Fd))
     title('Drag Force (N)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
+
+
+%% Cold Gas Thrusters
+if true 
+    figure(9)
+    plot(time, r_thruster_thrust);
+    title('Cold Gas Thrust (N)');
+    legend("1 DOF");
+end 
 
 
 %% Air Properties
 if false
-    figure(9)
-    plot(time, r_a, or_time, or_speed_of_sound)
-    title('Speed of Sound (m/s)')
-    legend("1 DoF", "OpenRocket")
-
     figure(10)
-    plot(time, r_P, or_time, or_pressure * 100)
-    title('Pressure (Pa)')
-    legend("1 DoF", "OpenRocket")
+    plot(time, r_a)
+    title('Speed of Sound (m/s)')
+    legend("1 DoF")
 
     figure(11)
-    plot(time, r_Mach, or_time, or_mach)
+    plot(time, r_P)
+    title('Pressure (Pa)')
+    legend("1 DoF")
+
+    figure(12)
+    plot(time, r_Mach)
     title('Mach Number')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
-
-
-%% Flight Analysis
-or_apogee = max(or_z);
-sim_apogee = max(r_z);
-pct_diff_apogee = abs(or_apogee - sim_apogee) / or_apogee * 100;
-
-disp(['OpenRocket Apogee: ' num2str(or_apogee)])
-disp(['1 DOF Apogee: ' num2str(sim_apogee)])
-disp(['Pct. Difference: ' num2str(pct_diff_apogee) ' %'])
 
