@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="750" height="450" viewBox="0 0 750 450" preserveAspectRatio="none">
+ <rect x="51.6" y="15.600000000000001" width="682.8" height="450" fill="white" stroke="none" />
+ <polyline points="51.6,422.4 54.08290909090909,343.71470999999997 57.80727272727273,81.03378000000004 59.04872727272728,50.40174000000002 64.01454545454546,61.690440000000024 82.63636363636364,76.23354 101.25818181818181,85.85436000000004 150.91636363636363,90.60375000000005 175.74545454545455,96.33963000000006 237.8181818181818,107.63850000000002 299.8909090909091,114.24900000000002 361.9636363636364,118.5204 424.03636363636366,132.7584 486.1090909090909,172.0146 548.1818181818181,195.91410000000002 579.2181818181818,203.49075000000002 597.84,208.57575 610.2545454545455,218.28810000000001 622.6690909090909,251.15754 641.290909090909,293.29184999999995 672.3272727272728,344.36559 723.2269090909091,387.68978999999996 724.4683636363636,422.4" fill="#e7e7e7" stroke="none" />
+ <text x="734.4" y="9.600000000000001" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">© ThrustCurve.org 2023</text>
+ <text x="393" y="447.6" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">Time (seconds)</text>
+ <text x="9.600000000000001" y="219" transform="rotate(-90 9.600000000000001,219)" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">Thrust (newtons)</text>
+ <polyline points="51.6,15.600000000000001 51.6,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="51.6" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">0.00</text>
+ <polyline points="82.63636363636364,15.600000000000001 82.63636363636364,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="82.63636363636364" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">0.25</text>
+ <polyline points="113.67272727272727,15.600000000000001 113.67272727272727,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="113.67272727272727" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">0.50</text>
+ <polyline points="144.70909090909092,15.600000000000001 144.70909090909092,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="144.70909090909092" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">0.75</text>
+ <polyline points="175.74545454545455,15.600000000000001 175.74545454545455,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="175.74545454545455" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">1.00</text>
+ <polyline points="206.78181818181818,15.600000000000001 206.78181818181818,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="206.78181818181818" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">1.25</text>
+ <polyline points="237.8181818181818,15.600000000000001 237.8181818181818,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="237.8181818181818" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">1.50</text>
+ <polyline points="268.8545454545455,15.600000000000001 268.8545454545455,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="268.8545454545455" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">1.75</text>
+ <polyline points="299.8909090909091,15.600000000000001 299.8909090909091,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="299.8909090909091" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">2.00</text>
+ <polyline points="330.92727272727274,15.600000000000001 330.92727272727274,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="330.92727272727274" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">2.25</text>
+ <polyline points="361.9636363636364,15.600000000000001 361.9636363636364,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="361.9636363636364" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">2.50</text>
+ <polyline points="393,15.600000000000001 393,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="393" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">2.75</text>
+ <polyline points="424.03636363636366,15.600000000000001 424.03636363636366,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="424.03636363636366" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">3.00</text>
+ <polyline points="455.07272727272726,15.600000000000001 455.07272727272726,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="455.07272727272726" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">3.25</text>
+ <polyline points="486.1090909090909,15.600000000000001 486.1090909090909,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="486.1090909090909" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">3.50</text>
+ <polyline points="517.1454545454545,15.600000000000001 517.1454545454545,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="517.1454545454545" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">3.75</text>
+ <polyline points="548.1818181818181,15.600000000000001 548.1818181818181,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="548.1818181818181" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">4.00</text>
+ <polyline points="579.2181818181818,15.600000000000001 579.2181818181818,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="579.2181818181818" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">4.25</text>
+ <polyline points="610.2545454545455,15.600000000000001 610.2545454545455,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="610.2545454545455" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">4.50</text>
+ <polyline points="641.290909090909,15.600000000000001 641.290909090909,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="641.290909090909" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">4.75</text>
+ <polyline points="672.3272727272728,15.600000000000001 672.3272727272728,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="672.3272727272728" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">5.00</text>
+ <polyline points="703.3636363636364,15.600000000000001 703.3636363636364,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="703.3636363636364" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">5.25</text>
+ <polyline points="734.4,15.600000000000001 734.4,426.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="734.4" y="436" text-anchor="middle" fill="black" font-size="12px" font-family="Helvetica">5.50</text>
+ <polyline points="47.6,422.4 734.4,422.4" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="426.4" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">0</text>
+ <polyline points="47.6,371.54999999999995 734.4,371.54999999999995" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="375.54999999999995" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">500</text>
+ <polyline points="47.6,320.7 734.4,320.7" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="324.7" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">1000</text>
+ <polyline points="47.6,269.85 734.4,269.85" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="273.85" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">1500</text>
+ <polyline points="47.6,219 734.4,219" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="223" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">2000</text>
+ <polyline points="47.6,168.15 734.4,168.15" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="172.15" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">2500</text>
+ <polyline points="47.6,117.30000000000001 734.4,117.30000000000001" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="121.30000000000001" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">3000</text>
+ <polyline points="47.6,66.45000000000005 734.4,66.45000000000005" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="70.45000000000005" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">3500</text>
+ <polyline points="47.6,15.600000000000023 734.4,15.600000000000023" stroke-width="1" stroke="#aaa" fill="none" />
+ <text x="46.4" y="19.600000000000023" text-anchor="end" fill="black" font-size="12px" font-family="Helvetica">4000</text>
+ <polyline points="51.6,163.61082250204106 734.4,163.61082250204106" stroke-width="0.5" stroke="#2e448c" fill="none" />
+ <text x="731.4" y="161.21082250204105" text-anchor="end" fill="#2e448c" font-size="12px" font-family="Helvetica">avg. 2544.6N</text>
+ <polyline points="723.803114231681,15.600000000000001 723.803114231681,422.4" stroke-width="0.5" stroke="#2e448c" fill="none" />
+ <text x="721.403114231681" y="18.6" transform="rotate(-90 721.403114231681,18.6)" text-anchor="end" fill="#2e448c" font-size="12px" font-family="Helvetica">end 5.41s</text>
+ <polyline points="51.6,422.4 54.08290909090909,343.71470999999997 57.80727272727273,81.03378000000004 59.04872727272728,50.40174000000002 64.01454545454546,61.690440000000024 82.63636363636364,76.23354 101.25818181818181,85.85436000000004 150.91636363636363,90.60375000000005 175.74545454545455,96.33963000000006 237.8181818181818,107.63850000000002 299.8909090909091,114.24900000000002 361.9636363636364,118.5204 424.03636363636366,132.7584 486.1090909090909,172.0146 548.1818181818181,195.91410000000002 579.2181818181818,203.49075000000002 597.84,208.57575 610.2545454545455,218.28810000000001 622.6690909090909,251.15754 641.290909090909,293.29184999999995 672.3272727272728,344.36559 723.2269090909091,387.68978999999996 724.4683636363636,422.4" stroke-width="3" stroke="#9e1a20" fill="none" />
+ <circle cx="51.6" cy="422.4" r="4" fill="white" stroke="none"><title>0.000s 0.000N</title></circle>
+ <circle cx="51.6" cy="422.4" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.000s 0.000N</title></circle>
+ <circle cx="54.08290909090909" cy="343.71470999999997" r="4" fill="white" stroke="none"><title>0.020s 773.700N</title></circle>
+ <circle cx="54.08290909090909" cy="343.71470999999997" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.020s 773.700N</title></circle>
+ <circle cx="57.80727272727273" cy="81.03378000000004" r="4" fill="white" stroke="none"><title>0.050s 3356.600N</title></circle>
+ <circle cx="57.80727272727273" cy="81.03378000000004" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.050s 3356.600N</title></circle>
+ <circle cx="59.04872727272728" cy="50.40174000000002" r="4" fill="white" stroke="none"><title>0.060s 3657.800N</title></circle>
+ <circle cx="59.04872727272728" cy="50.40174000000002" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.060s 3657.800N</title></circle>
+ <circle cx="64.01454545454546" cy="61.690440000000024" r="4" fill="white" stroke="none"><title>0.100s 3546.800N</title></circle>
+ <circle cx="64.01454545454546" cy="61.690440000000024" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.100s 3546.800N</title></circle>
+ <circle cx="82.63636363636364" cy="76.23354" r="4" fill="white" stroke="none"><title>0.250s 3403.800N</title></circle>
+ <circle cx="82.63636363636364" cy="76.23354" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.250s 3403.800N</title></circle>
+ <circle cx="101.25818181818181" cy="85.85436000000004" r="4" fill="white" stroke="none"><title>0.400s 3309.200N</title></circle>
+ <circle cx="101.25818181818181" cy="85.85436000000004" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.400s 3309.200N</title></circle>
+ <circle cx="150.91636363636363" cy="90.60375000000005" r="4" fill="white" stroke="none"><title>0.800s 3262.500N</title></circle>
+ <circle cx="150.91636363636363" cy="90.60375000000005" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>0.800s 3262.500N</title></circle>
+ <circle cx="175.74545454545455" cy="96.33963000000006" r="4" fill="white" stroke="none"><title>1.000s 3206.100N</title></circle>
+ <circle cx="175.74545454545455" cy="96.33963000000006" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>1.000s 3206.100N</title></circle>
+ <circle cx="237.8181818181818" cy="107.63850000000002" r="4" fill="white" stroke="none"><title>1.500s 3095.000N</title></circle>
+ <circle cx="237.8181818181818" cy="107.63850000000002" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>1.500s 3095.000N</title></circle>
+ <circle cx="299.8909090909091" cy="114.24900000000002" r="4" fill="white" stroke="none"><title>2.000s 3030.000N</title></circle>
+ <circle cx="299.8909090909091" cy="114.24900000000002" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>2.000s 3030.000N</title></circle>
+ <circle cx="361.9636363636364" cy="118.5204" r="4" fill="white" stroke="none"><title>2.500s 2988.000N</title></circle>
+ <circle cx="361.9636363636364" cy="118.5204" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>2.500s 2988.000N</title></circle>
+ <circle cx="424.03636363636366" cy="132.7584" r="4" fill="white" stroke="none"><title>3.000s 2848.000N</title></circle>
+ <circle cx="424.03636363636366" cy="132.7584" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>3.000s 2848.000N</title></circle>
+ <circle cx="486.1090909090909" cy="172.0146" r="4" fill="white" stroke="none"><title>3.500s 2462.000N</title></circle>
+ <circle cx="486.1090909090909" cy="172.0146" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>3.500s 2462.000N</title></circle>
+ <circle cx="548.1818181818181" cy="195.91410000000002" r="4" fill="white" stroke="none"><title>4.000s 2227.000N</title></circle>
+ <circle cx="548.1818181818181" cy="195.91410000000002" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>4.000s 2227.000N</title></circle>
+ <circle cx="579.2181818181818" cy="203.49075000000002" r="4" fill="white" stroke="none"><title>4.250s 2152.500N</title></circle>
+ <circle cx="579.2181818181818" cy="203.49075000000002" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>4.250s 2152.500N</title></circle>
+ <circle cx="597.84" cy="208.57575" r="4" fill="white" stroke="none"><title>4.400s 2102.500N</title></circle>
+ <circle cx="597.84" cy="208.57575" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>4.400s 2102.500N</title></circle>
+ <circle cx="610.2545454545455" cy="218.28810000000001" r="4" fill="white" stroke="none"><title>4.500s 2007.000N</title></circle>
+ <circle cx="610.2545454545455" cy="218.28810000000001" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>4.500s 2007.000N</title></circle>
+ <circle cx="622.6690909090909" cy="251.15754" r="4" fill="white" stroke="none"><title>4.600s 1683.800N</title></circle>
+ <circle cx="622.6690909090909" cy="251.15754" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>4.600s 1683.800N</title></circle>
+ <circle cx="641.290909090909" cy="293.29184999999995" r="4" fill="white" stroke="none"><title>4.750s 1269.500N</title></circle>
+ <circle cx="641.290909090909" cy="293.29184999999995" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>4.750s 1269.500N</title></circle>
+ <circle cx="672.3272727272728" cy="344.36559" r="4" fill="white" stroke="none"><title>5.000s 767.300N</title></circle>
+ <circle cx="672.3272727272728" cy="344.36559" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>5.000s 767.300N</title></circle>
+ <circle cx="723.2269090909091" cy="387.68978999999996" r="4" fill="white" stroke="none"><title>5.410s 341.300N</title></circle>
+ <circle cx="723.2269090909091" cy="387.68978999999996" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>5.410s 341.300N</title></circle>
+ <circle cx="724.4683636363636" cy="422.4" r="4" fill="white" stroke="none"><title>5.420s 0.000N</title></circle>
+ <circle cx="724.4683636363636" cy="422.4" r="4" stroke-width="2" stroke="#9e1a20" fill="none"><title>5.420s 0.000N</title></circle>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="100" viewBox="0 0 200 100" preserveAspectRatio="none">
+ <polyline points="0,89.5 200,89.5" stroke-width="1" stroke="#ccc" fill="none" />
+ <text x="0" y="99" text-anchor="start" fill="black" font-size="10px" font-family="Helvetica">1.0 s</text>
+ <text x="200" y="99" text-anchor="end" fill="black" font-size="10px" font-family="Helvetica">13.1 s</text>
+ <rect x="0" y="74.8" width="39.2" height="15.2" fill="#ccc" stroke="none" />
+ <rect x="40.2" y="0" width="39.2" height="90" fill="#ccc" stroke="none" />
+ <rect x="80.4" y="52.8" width="39.2" height="37.2" fill="#ccc" stroke="none" />
+ <rect x="120.60000000000001" y="83.6" width="39.2" height="6.4" fill="#ccc" stroke="none" />
+ <rect x="160.8" y="74.8" width="39.2" height="15.2" fill="#ccc" stroke="none" />
+ <polyline points="72.65624906654806,1 72.65624906654806,89" stroke-width="1" stroke="#9e1a20" fill="none" />
+</svg>

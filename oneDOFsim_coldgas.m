@@ -14,9 +14,9 @@ h_fins = 0.1016;         % [m] Fin Height
 t_fins = 0.0047625;      % [m] Fin Thickness
 N_fins = 4;              % Number of Fins
 
-motor_fname = 'thrust_curves/Cesaroni_9994M3400-P.rse';
-motor_wet_mass = 8.108;   % [kg] Mass with no fuel
-motor_prop_mass = 4.766;  % [kg] Mass of prop
+motor_fname = 'Cesaroni_9994M3400-P.rse';
+motor_wet_mass = 11.668;   % [kg] Mass with no fuel
+motor_prop_mass = 6.778;  % [kg] Mass of prop
 motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
