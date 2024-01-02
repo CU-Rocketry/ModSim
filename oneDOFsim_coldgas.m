@@ -23,7 +23,7 @@ motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
 
-%C.G. Thrusters Parameters
+% C.G. Thrusters Parameters
 thruster_burn_time = 1; % [s]
 thruster_thrust = 60;   % [N]
 
@@ -68,6 +68,7 @@ r_thruster_thrust = [];
 % Run the simulation
 iter = 0;
 cont_bool = true;
+apogee_reached = false;
 
 %generate vector of motor masses
 while cont_bool
@@ -142,6 +143,12 @@ while cont_bool
     %% Calculate z and z_dot for the next timestep
     z_dot = z_dot + z_dot_dot * dT;
     z = z + z_dot * dT;
+
+
+    %% Check for Sim Events
+    if z_dot < -0.5
+        apogee_reached = true;
+    end
 
    
     %% Evaluate if sim continues

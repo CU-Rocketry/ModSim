@@ -4,27 +4,35 @@ clear
 
 % TODO
 % - load more parameters from the motor file
+% - save recorder data to spreadsheet or CSV
 
 % Define Variables
-M_dry = 21.975;          % [kg] Dry mass of rocket
-Cd = 0.46;               % [unitless] Rocket total Cd
+M_dry = 22.011;          % [kg] Dry mass of rocket
+Cd = 0.447;              % [unitless] Rocket total Cd
 r_airfame = 0.0635;      % [m] Airfame Radius
 h_fins = 0.1016;         % [m] Fin Height
 t_fins = 0.0047625;      % [m] Fin Thickness
 N_fins = 4;              % Number of Fins
 
-motor_fname = 'thrust_curves/Cesaroni_9994M3400-P.rse';
-motor_wet_mass = 8.108;   % [kg] Mass with no fuel
-motor_prop_mass = 4.766;  % [kg] Mass of prop
+pad_altitude = 1400;     % [m] Spaceport America Pad Altitude MSL
+
+motor_fname = 'thrust_curves/AeroTech_M2500T.rse';
+motor_wet_mass = 8.108;  % [kg] Mass with no fuel
+motor_prop_mass = 4.766; % [kg] Mass of prop
 motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
 
+% Airbrakes Aerodynamic Parameters
+A_airbrakes = 0.0048; % [m^2] (example values)
+Cd_airbrakes = 2; % [unitless] (example values)
+k_airbrakes = Cd_airbrakes * A_airbrakes;
+
 % Simulation Initial Conditions + Parameters
-dT = 0.005; % [s]
-z = 0;
-z_dot = 0;
-z_dot_dot = 0;
+dT = 0.005;       % [s]
+z = pad_altitude; % [m]
+z_dot = 0;        % [m/s]
+z_dot_dot = 0;    % [m/s^2]
 
 sim_end_time = 60;
 t = 0;
@@ -56,10 +64,12 @@ r_Th = [];
 r_Cd = [];
 r_Fd = [];
 r_Mach = [];
+r_airbrakes_drag = [];
 
 % Run the simulation
 iter = 0;
 cont_bool = true;
+apogee_reached = false;
 
 %generate vector of motor masses
 while cont_bool
@@ -93,8 +103,22 @@ while cont_bool
     M = M_dry + motor_mass;
     W = M*g;
 
+    % Airbrakes Drag Force
+    if (t > motor_burn_time) && ~apogee_reached
+        % Airbrakes are deployed
+        Fd_airbrakes = q * k_airbrakes;
+    else
+        % Airbrakes are retracted
+        Fd_airbrakes = 0;
+    end
+
+    if z_dot > 0
+        % burn direction is opposite the velocity vector
+        Fd_airbrakes = -1 * Fd_airbrakes;
+    end
+
     % Solve governing eqn for z_dot_dot
-    z_dot_dot = (Th + Fd - W)/M;
+    z_dot_dot = (Th + Fd + Fd_airbrakes - W)/M;
 
     % Calculate any other additional parameters
     mach = z_dot / a;
@@ -114,11 +138,18 @@ while cont_bool
     r_Cd(iter) = Cd;
     r_Fd(iter) = Fd;
     r_Mach(iter) = mach;
+    r_airbrakes_drag(iter) = Fd_airbrakes;
 
 
     %% Calculate z and z_dot for the next timestep
     z_dot = z_dot + z_dot_dot * dT;
     z = z + z_dot * dT;
+
+
+    %% Check for Sim Events
+    if z_dot < -0.5
+        apogee_reached = true;
+    end
 
    
     %% Evaluate if sim continues
@@ -131,111 +162,102 @@ while cont_bool
     end
 end
 
+% Create recorder for AGL altitude
+r_z_agl = r_z - pad_altitude;
+
+
 %% Save Data
 % not implemented yet
 
 
-%% Load Reference Data and Plot to Compare
-or_data = readtable(fullfile('or_sim_data', 'all_data_3.csv'));
-
-or_time = table2array(or_data(:,"x_Time_s_"))';
-or_z = table2array(or_data(:, "Altitude_m_"))';
-or_z_dot = table2array(or_data(:, "TotalVelocity_m_s_"))';
-or_z_dot_dot = table2array(or_data(:, "TotalAcceleration_m_s__"))';
-or_mass = table2array(or_data(:, "Mass_g_"))';
-or_thrust = table2array(or_data(:, "Thrust_N_"))';
-or_drag_coefficient = table2array(or_data(:, "DragCoefficient___"))';
-or_drag_force = table2array(or_data(:, "DragForce_N_"))';
-or_motor_mass = table2array(or_data(:, "MotorMass_g_"))';
-or_speed_of_sound = table2array(or_data(:,"SpeedOfSound_m_s_"))';
-or_mach = table2array(or_data(:,"MachNumber___"))';
-or_pressure = table2array(or_data(:,"AirPressure_mbar_"))';
-
-
-%% Plot Our values and OR Values over each other
+%% Plot Our values
 if true
     % position
     figure(1)
-    plot(time, r_z, or_time, or_z)
-    title('Position (m)')
-    legend("1 DoF", "OpenRocket")
+    plot(time, r_z_agl)
+    title('Position AGL (m)')
+    legend("1 DoF")
 
     % velocity
     figure(2)
-    plot(time, r_z_dot, or_time, or_z_dot)
+    plot(time, r_z_dot)
     title('Velocity (m/s)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 
     % acceleration
     figure(3)
-    plot(time, abs(r_z_dot_dot), or_time, or_z_dot_dot)
+    plot(time, abs(r_z_dot_dot))
     title('Acceleration (m/s^2)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Mass
 if false
     figure(4)
-    plot(time, r_M, or_time, or_mass/1000)
+    plot(time, r_M)
     title('Mass (kg)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 
     figure(5)
-    plot(time, r_motor_mass, or_time, or_motor_mass/1000)
+    plot(time, r_motor_mass)
     title('Mass (kg)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Thrust
 if true
     figure(6)
-    plot(time, r_Th, or_time, or_thrust)
+    plot(time, r_Th)
     title('Thrust (N)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Drag
-if true
+if false
     figure(7)
-    plot(time, r_Cd, or_time, or_drag_coefficient)
+    plot(time, r_Cd)
     title('Drag Coefficient')
     legend("1 DoF", "OpenRocket")
 
     figure(8)
-    plot(time, abs(r_Fd), or_time, or_drag_force)
+    plot(time, abs(r_Fd))
     title('Drag Force (N)')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
+
+
+%% Airbrakes
+if true 
+    figure(9)
+    plot(time, r_airbrakes_drag);
+    title('Airbrakes Drag (N)');
+    legend("1 DOF");
+end 
 
 
 %% Air Properties
 if false
-    figure(9)
-    plot(time, r_a, or_time, or_speed_of_sound)
-    title('Speed of Sound (m/s)')
-    legend("1 DoF", "OpenRocket")
-
     figure(10)
-    plot(time, r_P, or_time, or_pressure * 100)
-    title('Pressure (Pa)')
-    legend("1 DoF", "OpenRocket")
+    plot(time, r_a)
+    title('Speed of Sound (m/s)')
+    legend("1 DoF")
 
     figure(11)
-    plot(time, r_Mach, or_time, or_mach)
+    plot(time, r_P)
+    title('Pressure (Pa)')
+    legend("1 DoF")
+
+    figure(12)
+    plot(time, r_Mach)
     title('Mach Number')
-    legend("1 DoF", "OpenRocket")
+    legend("1 DoF")
 end
 
 
 %% Flight Analysis
-or_apogee = max(or_z);
-sim_apogee = max(r_z);
-pct_diff_apogee = abs(or_apogee - sim_apogee) / or_apogee * 100;
+sim_apogee = max(r_z_agl);
 
-disp(['OpenRocket Apogee: ' num2str(or_apogee)])
-disp(['1 DOF Apogee: ' num2str(sim_apogee)])
-disp(['Pct. Difference: ' num2str(pct_diff_apogee) ' %'])
-
+disp(['Apogee: ' num2str(sim_apogee) ' m (' num2str(3.281 * sim_apogee) ' ft)'])
