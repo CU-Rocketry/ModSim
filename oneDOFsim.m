@@ -4,27 +4,30 @@ clear
 
 % TODO
 % - load more parameters from the motor file
+% - save recorder data to spreadsheet or CSV
 
 % Define Variables
-M_dry = 21.975;          % [kg] Dry mass of rocket
-Cd = 0.46;               % [unitless] Rocket total Cd
+M_dry = 22.011;          % [kg] Dry mass of rocket
+Cd = 0.447;              % [unitless] Rocket total Cd
 r_airfame = 0.0635;      % [m] Airfame Radius
 h_fins = 0.1016;         % [m] Fin Height
 t_fins = 0.0047625;      % [m] Fin Thickness
 N_fins = 4;              % Number of Fins
 
-motor_fname = 'thrust_curves/Cesaroni_9994M3400-P.rse';
-motor_wet_mass = 8.108;   % [kg] Mass with no fuel
-motor_prop_mass = 4.766;  % [kg] Mass of prop
+pad_altitude = 1400;     % [m] Spaceport America Pad Altitude MSL
+
+motor_fname = 'thrust_curves/AeroTech_M2500T.rse';
+motor_wet_mass = 8.108;  % [kg] Mass with no fuel
+motor_prop_mass = 4.766; % [kg] Mass of prop
 motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
 
 % Simulation Initial Conditions + Parameters
-dT = 0.005; % [s]
-z = 0;
-z_dot = 0;
-z_dot_dot = 0;
+dT = 0.005;       % [s]
+z = pad_altitude; % [m]
+z_dot = 0;        % [m/s]
+z_dot_dot = 0;    % [m/s^2]
 
 sim_end_time = 60;
 t = 0;
@@ -131,12 +134,16 @@ while cont_bool
     end
 end
 
+% Create recorder for AGL altitude
+r_z_agl = r_z - pad_altitude;
+
+
 %% Save Data
 % not implemented yet
 
 
 %% Load Reference Data and Plot to Compare
-or_data = readtable(fullfile('or_sim_data', 'all_data_3.csv'));
+or_data = readtable(fullfile('or_sim_data', 'all_data_4.csv'));
 
 or_time = table2array(or_data(:,"x_Time_s_"))';
 or_z = table2array(or_data(:, "Altitude_m_"))';
@@ -152,12 +159,12 @@ or_mach = table2array(or_data(:,"MachNumber___"))';
 or_pressure = table2array(or_data(:,"AirPressure_mbar_"))';
 
 
-%% Plot Our values and OR Values over each other
+%% Plot Our values and O.R. Values over each other
 if true
     % position
     figure(1)
-    plot(time, r_z, or_time, or_z)
-    title('Position (m)')
+    plot(time, r_z_agl, or_time, or_z)
+    title('Position AGL (m)')
     legend("1 DoF", "OpenRocket")
 
     % velocity
@@ -232,10 +239,10 @@ end
 
 %% Flight Analysis
 or_apogee = max(or_z);
-sim_apogee = max(r_z);
+sim_apogee = max(r_z_agl);
 pct_diff_apogee = abs(or_apogee - sim_apogee) / or_apogee * 100;
 
-disp(['OpenRocket Apogee: ' num2str(or_apogee)])
-disp(['1 DOF Apogee: ' num2str(sim_apogee)])
+disp(['OpenRocket Apogee: ' num2str(or_apogee) ' m'])
+disp(['1 DOF Apogee: ' num2str(sim_apogee) ' m (' num2str(3.281 * sim_apogee) ' ft)'])
 disp(['Pct. Difference: ' num2str(pct_diff_apogee) ' %'])
 

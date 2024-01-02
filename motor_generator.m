@@ -70,7 +70,7 @@ for i = 1:length(data_text)
     line = strsplit(line);
 
     % Parse out T datapoint
-    t_field = line(1);
+    t_field = line(4);
     t_field = strsplit(t_field, "=");
     t_field = erase(t_field, '"');
     t_field = str2num(t_field(2));
@@ -94,7 +94,7 @@ for i = 1:length(data_text)
     m_raw = [m_raw m_field];
 
     % Parse out CG datapoint
-    cg_field = line(4);
+    cg_field = line(1);
     cg_field = strsplit(cg_field, "=");
     cg_field = erase(cg_field, '"');
     cg_field = str2num(cg_field(2));

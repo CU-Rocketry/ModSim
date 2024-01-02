@@ -4,32 +4,34 @@ clear
 
 % TODO
 % - load more parameters from the motor file
-% - recorder for thruster force
+% - save recorder data to spreadsheet or CSV
 
 % Define Variables
-M_dry = 21.975;          % [kg] Dry mass of rocket
-Cd = 0.46;               % [unitless] Rocket total Cd
+M_dry = 22.011;          % [kg] Dry mass of rocket
+Cd = 0.447;              % [unitless] Rocket total Cd
 r_airfame = 0.0635;      % [m] Airfame Radius
 h_fins = 0.1016;         % [m] Fin Height
 t_fins = 0.0047625;      % [m] Fin Thickness
 N_fins = 4;              % Number of Fins
 
-motor_fname = 'Cesaroni_9994M3400-P.rse';
-motor_wet_mass = 11.668;   % [kg] Mass with no fuel
-motor_prop_mass = 6.778;  % [kg] Mass of prop
+pad_altitude = 1400;     % [m] Spaceport America Pad Altitude MSL
+
+motor_fname = 'thrust_curves/AeroTech_M2500T.rse';
+motor_wet_mass = 8.108;  % [kg] Mass with no fuel
+motor_prop_mass = 4.766; % [kg] Mass of prop
 motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
 
-%C.G Thrusters Parameters
+%C.G. Thrusters Parameters
 thruster_burn_time = 1; % [s]
-thruster_thrust = 60; % [N]
+thruster_thrust = 60;   % [N]
 
 % Simulation Initial Conditions + Parameters
-dT = 0.005; % [s]
-z = 0;
-z_dot = 0;
-z_dot_dot = 0;
+dT = 0.005;       % [s]
+z = pad_altitude; % [m]
+z_dot = 0;        % [m/s]
+z_dot_dot = 0;    % [m/s^2]
 
 sim_end_time = 60;
 t = 0;
@@ -152,33 +154,20 @@ while cont_bool
     end
 end
 
+% Create recorder for AGL altitude
+r_z_agl = r_z - pad_altitude;
+
+
 %% Save Data
 % not implemented yet
 
 
-%% Load Reference Data and Plot to Compare
-or_data = readtable(fullfile('or_sim_data', 'all_data_3.csv'));
-
-or_time = table2array(or_data(:,"x_Time_s_"))';
-or_z = table2array(or_data(:, "Altitude_m_"))';
-or_z_dot = table2array(or_data(:, "TotalVelocity_m_s_"))';
-or_z_dot_dot = table2array(or_data(:, "TotalAcceleration_m_s__"))';
-or_mass = table2array(or_data(:, "Mass_g_"))';
-or_thrust = table2array(or_data(:, "Thrust_N_"))';
-or_drag_coefficient = table2array(or_data(:, "DragCoefficient___"))';
-or_drag_force = table2array(or_data(:, "DragForce_N_"))';
-or_motor_mass = table2array(or_data(:, "MotorMass_g_"))';
-or_speed_of_sound = table2array(or_data(:,"SpeedOfSound_m_s_"))';
-or_mach = table2array(or_data(:,"MachNumber___"))';
-or_pressure = table2array(or_data(:,"AirPressure_mbar_"))';
-
-
-%% Plot Our values and OR Values over each other
+%% Plot Our values
 if true
     % position
     figure(1)
-    plot(time, r_z)
-    title('Position (m)')
+    plot(time, r_z_agl)
+    title('Position AGL (m)')
     legend("1 DoF")
 
     % velocity
@@ -259,3 +248,8 @@ if false
     legend("1 DoF")
 end
 
+
+%% Flight Analysis
+sim_apogee = max(r_z_agl);
+
+disp(['Apogee: ' num2str(sim_apogee) ' m (' num2str(3.281 * sim_apogee) ' ft)'])
