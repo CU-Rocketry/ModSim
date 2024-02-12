@@ -24,9 +24,10 @@ motor_dry_mass = motor_wet_mass - motor_prop_mass;
 g = 9.81;                % [m/s^2] Gravity
 
 % Airbrakes Aerodynamic Parameters
-A_airbrakes = 0.0048; % [m^2] (example values)
-Cd_airbrakes = 2; % [unitless] (example values)
+A_airbrakes = 0.00614; % [m^2] (example values)
+Cd_airbrakes = 1.28; % [unitless] (example values)
 k_airbrakes = Cd_airbrakes * A_airbrakes;
+%k_airbrakes = 0.0; % [m^2]
 
 % Simulation Initial Conditions + Parameters
 dT = 0.005;       % [s]
@@ -186,7 +187,7 @@ if true
 
     % acceleration
     figure(3)
-    plot(time, abs(r_z_dot_dot))
+    plot(time, r_z_dot_dot)
     title('Acceleration (m/s^2)')
     legend("1 DoF")
 end
@@ -207,7 +208,7 @@ end
 
 
 %% Thrust
-if true
+if false
     figure(6)
     plot(time, r_Th)
     title('Thrust (N)')
@@ -230,7 +231,7 @@ end
 
 
 %% Airbrakes
-if true 
+if false
     figure(9)
     plot(time, r_airbrakes_drag);
     title('Airbrakes Drag (N)');

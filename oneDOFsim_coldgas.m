@@ -7,7 +7,7 @@ clear
 % - save recorder data to spreadsheet or CSV
 
 % Define Variables
-M_dry = 22.011;          % [kg] Dry mass of rocket
+M_dry = 24.25;          % [kg] Dry mass of rocket (Actual: 22.011)
 Cd = 0.447;              % [unitless] Rocket total Cd
 r_airfame = 0.0635;      % [m] Airfame Radius
 h_fins = 0.1016;         % [m] Fin Height
@@ -24,7 +24,7 @@ motor_dry_mass = motor_wet_mass - motor_prop_mass;
 g = 9.81;                % [m/s^2] Gravity
 
 % C.G. Thrusters Parameters
-thruster_burn_time = 1; % [s]
+thruster_burn_time = 19; % [s]
 thruster_thrust = 60;   % [N]
 
 % Simulation Initial Conditions + Parameters
@@ -170,7 +170,7 @@ r_z_agl = r_z - pad_altitude;
 
 
 %% Plot Our values
-if true
+if false
     % position
     figure(1)
     plot(time, r_z_agl)
@@ -206,7 +206,7 @@ end
 
 
 %% Thrust
-if true
+if false
     figure(6)
     plot(time, r_Th)
     title('Thrust (N)')
@@ -229,7 +229,7 @@ end
 
 
 %% Cold Gas Thrusters
-if true 
+if false
     figure(9)
     plot(time, r_thruster_thrust);
     title('Cold Gas Thrust (N)');
