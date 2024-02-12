@@ -4,11 +4,12 @@ clear
 
 % TODO
 % - load more parameters from the motor file
-% - save recorder data to spreadsheet or CSV
+% - save recorder data to spreadsheet or CSV if needed
+% - add drouge and main parachute deployment events
 
-% Define Variables
-M_dry = 22.011;          % [kg] Dry mass of rocket
-Cd = 0.447;              % [unitless] Rocket total Cd
+%% Define Variables
+M_dry = 22.861;          % [kg] Dry mass of rocket
+Cd = 0.458;              % [unitless] Rocket total Cd
 r_airfame = 0.0635;      % [m] Airfame Radius
 h_fins = 0.1016;         % [m] Fin Height
 t_fins = 0.0047625;      % [m] Fin Thickness
@@ -23,7 +24,8 @@ motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 g = 9.81;                % [m/s^2] Gravity
 
-% Simulation Initial Conditions + Parameters
+
+%% Simulation Initial Conditions + Parameters
 dT = 0.005;       % [s]
 z = pad_altitude; % [m]
 z_dot = 0;        % [m/s]
@@ -32,7 +34,8 @@ z_dot_dot = 0;    % [m/s^2]
 sim_end_time = 60;
 t = 0;
 
-% Calculate Parameters
+
+%% Calculate Parameters
 A_fuselage = pi * r_airfame ^ 2;
 A_fins = h_fins * t_fins * N_fins;
 
@@ -45,7 +48,8 @@ prop_mass_lookup = motor.prop_mass_lookup;
 
 motor_burn_time = max(time_lookup); % [s] Motor burn time
 
-% Recorder Setup
+
+%% Recorder Setup
 time = [];
 r_z = [];
 r_z_dot = [];
@@ -60,7 +64,8 @@ r_Cd = [];
 r_Fd = [];
 r_Mach = [];
 
-% Run the simulation
+
+%% Run the simulation
 iter = 0;
 cont_bool = true;
 apogee_reached = false;
