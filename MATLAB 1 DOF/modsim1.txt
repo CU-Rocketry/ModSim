@@ -1,0 +1,34 @@
+% elena goldman flight sim 1 dof
+
+%% define variables
+%LABEL UNITS ONCE ESTABLISHED!!!!
+m_T = 100; %[N]
+m_bt = 1; %[s]
+g = 9.81; %[m/s^2]
+rho = 1.225; %[kg/m^3]
+Cd = 0.1; %[unitless]
+A = 0.025; %[m^2] 
+M = 1; %[kg]
+dt; %timestep
+
+%% initial conditions
+t_0 = 0;
+v_0 = 0;
+a_0 = 0;
+x_0 = 0;
+cont_criteria = true;
+
+%% define variables
+Fd = (1/2)*rho*v^2*Cd*A;
+a = (m_T-Fd-m)/m;
+v = v_0 + dt*a;
+
+%% plot functions relative to time
+%use while loop for iterations + re-iterations
+
+% while cont_criteria < 1000
+% calc forces and a
+% calc x, v, a for next timestep
+% evaluate if continues, i = i + 1;
+% save data
+% end
