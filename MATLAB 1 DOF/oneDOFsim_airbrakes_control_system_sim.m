@@ -6,14 +6,13 @@ clear
 
 % TODO (Control Systems Sim)
 % - get actual k values from CFD
-
-% TODO (General)
-% - load more parameters from the motor file
-% - save recorder data to spreadsheet or CSV if needed
-% - add drouge and main parachute deployment events
+% - implement pressure coupling sensor noise
+% - implement long. accel lockout for airbrakes activation
 
 
 %% Define Variables
+m_to_f = 3.281;
+
 % Vehicle
 M_dry = 22.861;          % [kg] Dry mass of rocket
 Cd = 0.458;              % [unitless] Rocket total Cd
@@ -34,14 +33,17 @@ motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 % Control System
 target_alt_agl = 10000; % [ft]
+refresh_time = 0.25; % [s] Refresh time of the airbrakes control system
 
 time_lockout = 4.5; % [s] DTEG 7.4.1.1 (Boost phase ended, refine this detection in actual flight code, HAS ENOUGH CONTROL AUTHORITY)
 Q_lockout = false;  %     DTEG 7.4.1.2 (Max. Q lockout Unimplemented)
 alt_lockout = 2000; % [m] DTEG 7.4.1.3.2 (Altitude lockout for 10k flights passed, NOT ENOUGH CONTROL AUTHORITY)
 
-target_alt_agl = target_alt_agl / 3.281; % [m]
+accel_lockout = 0.0; % [m/s^2] When accel switches to negative then boost is over (NOT IMPLEMENTED)
+
+target_alt_agl = target_alt_agl / m_to_f; % [m]
 target_alt = target_alt_agl + pad_altitude; % [m]
-apogee_prediction = -1;
+apogee_prediction = -1; % initial value
 
 
 %% Simulation Initial Conditions + Parameters
@@ -104,8 +106,12 @@ iter = 0;
 cont_bool = true;
 apogee_reached = false;
 
+% Airbrakes Inital Conditions
+AB_unlocked = false;
+AB_deployed = false;
+update_needed = false;
+t_prev_update = -refresh_time;
 
-%generate vector of motor masses
 while cont_bool
     %% Calculate Properties at Current SimTime
     t = t + dT;
@@ -114,8 +120,15 @@ while cont_bool
     [T, a, P, rho] = atmosisa(z);
 
     % Airbrakes control logic here
-    if t > time_lockout
-        % Boost lockout is passed, start active control to try to hit the desired apogee
+    if (t - t_prev_update) >= refresh_time
+        % Check and see if the airbrakes control system needs to be updated
+        update_needed = true;
+    else
+        update_needed = false;
+    end
+
+    if AB_unlocked && update_needed
+        % Lockout is passed, start active control to try to hit the desired apogee
         apogee_prediction = apogeePredict(z, z_dot, k_projectile, M);
 
         if apogee_prediction > target_alt % make sure AGL or ASL is consistent!!!
@@ -123,9 +136,8 @@ while cont_bool
         else
             AB_deployed = false;
         end
-    else
-        % Boost lockout is not passed
-        AB_deployed = false;
+
+        t_prev_update = t; % record the update timestamp
     end
 
 
@@ -194,6 +206,10 @@ while cont_bool
         apogee_reached = true;
     end
 
+    %if t > time_lockout
+    if t > time_lockout
+        AB_unlocked = true;
+    end
    
     %% Evaluate if sim continues
     if (t < sim_end_time && z_dot > 0) || (iter < 5)
@@ -215,10 +231,10 @@ r_z_agl = r_z - pad_altitude;
 
 %% Plot Our values
 if true
-    % save('retracted_flight.mat', 'r_z_agl_retracted', 'r_time_retracted')
-    load('retracted_flight.mat')
-    %save('deployed_flight.mat', 'r_z_agl_deployed', 'r_time_deployed')
-    load('deployed_flight.mat')
+    % save('simulated_data/retracted_flight.mat', 'r_z_agl_retracted', 'r_time_retracted')
+    load('simulated_data/retracted_flight.mat')
+    %save('simulated_data/deployed_flight.mat', 'r_z_agl_deployed', 'r_time_deployed')
+    load('simulated_data/deployed_flight.mat')
 
     % position
     figure(1)
@@ -312,4 +328,4 @@ end
 %% Flight Analysis
 sim_apogee = max(r_z_agl);
 
-disp(['Apogee: ' num2str(sim_apogee) ' m (' num2str(3.281 * sim_apogee) ' ft)'])
+disp(['Apogee: ' num2str(sim_apogee) ' m (' num2str(m_to_f * sim_apogee) ' ft)'])

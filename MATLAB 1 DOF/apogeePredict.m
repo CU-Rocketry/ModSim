@@ -29,7 +29,8 @@ while (z_dot > 0) && (iter < max_iter)
     %t = t + dT;
     iter = iter + 1;
 
-    [~, ~, ~, rho] = atmosisa(z);
+    %[~, ~, ~, rho] = atmosisa(z); % EXTREMELY SLOW FUNCTION
+    [~, ~, ~, rho] = stdAtm(z);
 
 
     %% Calculate forces and z_dot_dot
