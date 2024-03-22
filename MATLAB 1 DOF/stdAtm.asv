@@ -36,7 +36,7 @@ densities = [1.2250, 0.364204971879773, 0.040095733925122, 0.045517672797983, 0.
 %% Check the Altitude to Ensure Valid
 if alt < 0
     % If altitude is less than 0
-    disp(['Altitude less than 0km (' num2str(alt) '), returning Sea-Level conditions.'])
+    disp('Altitude less than 0km, returning Sea-Level conditions.')
 
     T = t_0;
     P = p_0;
@@ -61,8 +61,8 @@ if alt < altitudes(1)
 
     a_1 = -6.5e-3; % [K/m]
 
-    T = t_0 + a_1 * (alt - h_0);                    % [K]
-    P = p_0 * (T / t_0) ^ (-g_0/(a_1*R));           % [Pa]
+    T = t_0 + a_1 * (alt - h_0); % [K]
+    P = p_0 * (T / t_0) ^ (-g_0/(a_1*R)); % [Pa]
     rho = rho_0 * (T / t_0) ^ -((g_0/(a_1*R)) + 1); % [kg/m^3]
 
 elseif alt < altitudes(2)
@@ -73,13 +73,13 @@ elseif alt < altitudes(2)
     h_0 = altitudes(1);    % [m]
 
     T = t_0;
-    P = p_0 * exp((-g_0/(R*T)*(alt-h_0)));     % [Pa]
+    P = p_0 * exp((-g_0/(R*T)*(alt-h_0))); % [Pa]
     rho = rho_0 * exp((-g_0/(R*T)*(alt-h_0))); % [kg/m^3]
 
 elseif alt < altitudes(3)
     % Second gradient region
-    t_0 = temperatures(2); % [K]
-    h_0 = altitudes(2);    % [m]
+    t_0 = temperatures(2); %[K]
+    h_0 = altitudes(2);    %[km]
     p_0 = pressures(3);    % [Pa]
     rho_0 = densities(3);  % [kg/m^3]
 
@@ -91,7 +91,7 @@ elseif alt < altitudes(3)
 
 elseif alt < altitudes(4)
     % Second isothermal region
-    t_0 = temperatures(3); % [K]
+    t_0 = temperatures(3); %[K]
     p_0 = pressures(4);    % [Pa]
     rho_0 = densities(4);  % [kg/m^3]
     h_0 = altitudes(3);    % [m]
@@ -102,8 +102,8 @@ elseif alt < altitudes(4)
 
 elseif alt < altitudes(5)
     % Third gradient region
-    t_0 = temperatures(3); % [K]
-    h_0 = altitudes(4);    % [m]
+    t_0 = temperatures(3); %[K]
+    h_0 = altitudes(4);    %[km]
     p_0 = pressures(5);    % [Pa]
     rho_0 = densities(5);  % [kg/m^3]
 
@@ -115,7 +115,7 @@ elseif alt < altitudes(5)
 
 elseif alt < altitudes(6)
     % Third isothermal region
-    t_0 = temperatures(4); % [K]
+    t_0 = temperatures(4); %[K]
     p_0 = pressures(6);    % [Pa]
     rho_0 = densities(6);  % [kg/m^3]
     h_0 = altitudes(5);    % [m]
@@ -126,8 +126,8 @@ elseif alt < altitudes(6)
 
 elseif alt < altitudes(7)
     % Fourth gradient region
-    t_0 = temperatures(4); % [K]
-    h_0 = altitudes(6);    % [m]
+    t_0 = temperatures(4); %[K]
+    h_0 = altitudes(6);    %[km]
     p_0 = pressures(7);    % [Pa]
     rho_0 = densities(7);  % [kg/m^3]
 
@@ -139,7 +139,7 @@ elseif alt < altitudes(7)
 
 elseif alt == altitudes(7)
     % End of the Standard Atmosphere Model
-    T = temperatures(5); % [K]
+    T = temperatures(5); %[K]
     P = pressures(8);    % [Pa]
     rho = densities(8);  % [kg/m^3]
 end
