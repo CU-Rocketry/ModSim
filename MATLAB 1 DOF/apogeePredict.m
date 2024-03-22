@@ -28,8 +28,7 @@ while (z_dot > 0) && (iter < max_iter)
     %% Calculate Properties at Current SimTime
     %t = t + dT;
     iter = iter + 1;
-
-    %[~, ~, ~, rho] = atmosisa(z); % EXTREMELY SLOW FUNCTION
+    
     [~, ~, ~, rho] = stdAtm(z);
 
 

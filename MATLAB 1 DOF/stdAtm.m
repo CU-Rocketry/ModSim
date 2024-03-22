@@ -1,4 +1,4 @@
-function [alt, T, P, rho] = stdAtm(alt)
+function [T, a, P, rho] = stdAtm(alt)
 % This function takes in the altitude of interest and returns the altitude,
 % temperature, pressure, and density in SI units. Uses the Anderson model
 % from AE212 in F21.
@@ -25,6 +25,7 @@ rho_0 = 1.2250; % [kg/m^3]
 
 g_0 = 9.8; % [m/s^2]
 R = 287; % [J/kg*K]
+gamma = 1.4;
 
 altitudes = [11, 25, 47, 53, 79, 90, 105] * 1e3; % [m]
 temperatures = [288.16, 216.66, 282.66, 165.66, 225.66]; % [K]
@@ -142,5 +143,8 @@ elseif alt == altitudes(7)
     P = pressures(8); % [Pa]
     rho = densities(8); % [kg/m^3]
 end
+
+% Calc Speed of Sound
+a = sqrt(gamma * R * T);
 
 end

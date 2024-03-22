@@ -117,7 +117,8 @@ while cont_bool
     t = t + dT;
     iter = iter + 1;
 
-    [T, a, P, rho] = atmosisa(z);
+    %[T, a, P, rho] = atmosisa(z); % SLOW FUNCTION
+    [T, a, P, rho] = stdAtm(z);
 
     % Airbrakes control logic here
     if (t - t_prev_update) >= refresh_time
