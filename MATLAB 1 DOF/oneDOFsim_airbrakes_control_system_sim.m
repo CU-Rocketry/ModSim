@@ -6,7 +6,6 @@ clear
 
 % TODO (Control Systems Sim)
 % - get actual k values from CFD
-% - implement pressure coupling sensor noise
 % - implement long. accel lockout for airbrakes activation
 
 
@@ -44,6 +43,10 @@ accel_lockout = 0.0; % [m/s^2] When accel switches to negative then boost is ove
 target_alt_agl = target_alt_agl / m_to_f; % [m]
 target_alt = target_alt_agl + pad_altitude; % [m]
 apogee_prediction = -1; % initial value
+
+% Sensor Noise
+baro_RMS_noise = 0.11; % [m] https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp280-ds001.pdf
+baro_STD_noise = baro_RMS_noise; % Is equal to the STD according to this -> https://www.analog.com/media/en/technical-documentation/dsp-book/dsp_book_Ch2.pdf
 
 
 %% Simulation Initial Conditions + Parameters
@@ -130,7 +133,8 @@ while cont_bool
 
     if AB_unlocked && update_needed
         % Lockout is passed, start active control to try to hit the desired apogee
-        apogee_prediction = apogeePredict(z, z_dot, k_projectile, M);
+        z_measured = z + baro_STD_noise * randn; % [m] Model the sensor noise
+        apogee_prediction = apogeePredict(z_measured, z_dot, k_projectile, M);
 
         if apogee_prediction > target_alt % make sure AGL or ASL is consistent!!!
             AB_deployed = true;

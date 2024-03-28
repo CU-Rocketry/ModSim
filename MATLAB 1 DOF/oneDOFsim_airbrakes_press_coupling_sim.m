@@ -85,6 +85,10 @@ k_airbrakes = Cd_airbrakes * A_airbrakes; % [m^2]
 % Control System
 k_projectile = k_vehicle + k_airbrakes / 2;
 
+% Sensor Noise
+baro_RMS_noise = 0.11; % [m] https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp280-ds001.pdf
+baro_STD_noise = baro_RMS_noise; % Is equal to the STD according to this -> https://www.analog.com/media/en/technical-documentation/dsp-book/dsp_book_Ch2.pdf
+
 
 %% Recorder Setup
 time = [];
@@ -134,12 +138,16 @@ while cont_bool
     if AB_unlocked && update_needed
         % Lockout is passed, start active control to try to hit the desired apogee
         if AB_deployed == true
-            % Add pressure coupling noise
-            dh = c * (-R * T * z_dot^2)/(P * g);
-            apogee_prediction = apogeePredict(z + dh, z_dot, k_projectile, M);
+            dh = c * (-R * T * z_dot^2)/(P * g); % [m] Model the pressure coupling noise
+
+            z_measured = z + dh + baro_STD_noise * randn; % [m] Model the sensor noise
+
+            apogee_prediction = apogeePredict(z_measured, z_dot, k_projectile, M);
         else
             % Run a 'clean' apogee prediction
-            apogee_prediction = apogeePredict(z, z_dot, k_projectile, M);
+            z_measured = z + baro_STD_noise * randn; % [m] Model the sensor noise
+
+            apogee_prediction = apogeePredict(z_measured, z_dot, k_projectile, M);
         end
 
         if apogee_prediction > target_alt % make sure AGL or ASL is consistent!!!
