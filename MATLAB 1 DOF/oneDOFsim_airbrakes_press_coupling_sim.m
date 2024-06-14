@@ -11,7 +11,7 @@ clear
 
 
 %% Define Variables
-m_to_f = 3.281;
+m_to_f = 3.281; % Meters to feet conversion factor
 
 % Vehicle
 M_dry = 22.861;          % [kg] Dry mass of rocket
@@ -34,7 +34,7 @@ motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 % Control System
 target_alt_agl = 10000; % [ft]
-refresh_time = 0.25; % [s] Refresh time of the airbrakes control system
+refresh_time = 0.005; % [s] Refresh time of the airbrakes control system
 
 time_lockout = 4.5; % [s] DTEG 7.4.1.1 (Boost phase ended, refine this detection in actual flight code, HAS ENOUGH CONTROL AUTHORITY)
 Q_lockout = false;  %     DTEG 7.4.1.2 (Max. Q lockout Unimplemented)
@@ -44,9 +44,9 @@ accel_lockout = 0.0; % [m/s^2] When accel switches to negative then boost is ove
 
 target_alt_agl = target_alt_agl / m_to_f; % [m]
 target_alt = target_alt_agl + pad_altitude; % [m]
-apogee_prediction = -1; % initial value
+apogee_prediction = -1; % [m] initial value
 
-c = -0.1; % Pressure coupling coefficient
+c = 0.0; % Pressure coupling coefficient
 
 
 %% Simulation Initial Conditions + Parameters
@@ -138,7 +138,7 @@ while cont_bool
     if AB_unlocked && update_needed
         % Lockout is passed, start active control to try to hit the desired apogee
         if AB_deployed == true
-            dh = c * (-R * T * z_dot^2)/(P * g); % [m] Model the pressure coupling noise
+            dh = c * (-R * T * rho * z_dot^2)/(P * g); % [m] Model the pressure coupling noise
 
             z_measured = z + dh + baro_STD_noise * randn; % [m] Model the sensor noise
 
@@ -312,6 +312,8 @@ if true
     figure(8)
     plot(time, abs(r_Fd))
     title('Drag Force (N)')
+    xlabel('Time (s)')
+    ylabel('Drag Force (N)')
     legend("1 DoF")
 end
 

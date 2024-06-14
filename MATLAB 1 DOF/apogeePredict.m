@@ -2,6 +2,9 @@ function [z] = apogeePredict(z, z_dot, k_projectile, M)
 % Predicts the maximum vertical height achieved by an object in projectile
 % motion with aerodynamic drag.
 %
+% Ex.
+% [z] = apogeePredict(z, z_dot, k_projectile, M)
+%
 % Inputs:
 % z_0          - ASL altitude [m]
 % z_dot_0      - vertical velocity [m/s]
@@ -11,12 +14,10 @@ function [z] = apogeePredict(z, z_dot, k_projectile, M)
 % Output:
 % z - ASL altitude at apogee [m]
 
-% NOTE: I think the atmosisa function is pretty slow...
-
 % Setup Variables
 g = 9.81; % [m/s^2] Gravity
 dT = 0.1; % [s]
-t = 0;    % [s]
+%t = 0;    % [s]
 
 max_iter = inf;
 iter = 0;

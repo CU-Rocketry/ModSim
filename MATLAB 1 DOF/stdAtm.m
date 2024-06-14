@@ -29,25 +29,19 @@ gamma = 1.4;
 
 altitudes = [11, 25, 47, 53, 79, 90, 105] * 1e3; % [m]
 temperatures = [288.16, 216.66, 282.66, 165.66, 225.66]; % [K]
-pressures = [101325, 2.265016850997111e+04, 2.493582460578723e+03, 1.208796826557350e+02, 58.555450739915024, 1.015732573402018, 0.105215647482691, 0.007518917991855]; % [Pa]
-densities = [1.2250, 0.364204971879773, 0.040095733925122, 0.045517672797983, 0.022049262446433, 6.526086350539201e-04, 6.760110080945176e-05, 3.546433798215636e-06]; % [kg/m^3]
+pressures = [101325, 2.265016850997111e+04, 2.493582460578723e+03, 1.208796826557350e+02, 58.555450739915024,     1.015732573402018,     0.105215647482691,     0.007518917991855]; % [Pa]
+densities = [1.2250,     0.364204971879773,     0.040095733925122,     0.045517672797983,  0.022049262446433, 6.526086350539201e-04, 6.760110080945176e-05, 3.546433798215636e-06]; % [kg/m^3]
 
 
 %% Check the Altitude to Ensure Valid
 if alt < 0
     % If altitude is less than 0
     disp(['Altitude less than 0km (' num2str(alt) '), returning Sea-Level conditions.'])
-
-    T = t_0;
-    P = p_0;
-    rho = rho_0;
+    alt = 0;
 elseif alt > altitudes(7)
     % If altitude is above the top of the standard atm model
     disp('Altitude greater than 105km, returning conditions for 105km.')
-
-    T = t_0;
-    P = p_0;
-    rho = rho_0;
+    alt = 105e3;
 end
 
 

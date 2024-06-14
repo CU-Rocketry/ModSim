@@ -6,19 +6,23 @@ clear
 
 % TODO (Control Systems Sim)
 % - get actual k values from CFD
-% - implement long. accel lockout for airbrakes activation
+% - regenerate boundary flights (need to do that a lot)
 
 
 %% Define Variables
 m_to_f = 3.281;
 
 % Vehicle
-M_dry = 22.861;          % [kg] Dry mass of rocket
-Cd = 0.458;              % [unitless] Rocket total Cd
-r_airfame = 0.0635;      % [m] Airfame Radius
-h_fins = 0.1016;         % [m] Fin Height
-t_fins = 0.0047625;      % [m] Fin Thickness
-N_fins = 4;              % Number of Fins
+M_ballast = 1;            % [kg] Additional Ballast Mass
+M_dry = 21.280 + M_ballast; % [kg] Dry mass of rocket
+Cd = 0.458;                 % [unitless] Rocket total Cd
+r_airfame = 0.0635;         % [m] Airfame Radius
+h_fins = 0.1016;            % [m] Fin Height
+t_fins = 0.0047625;         % [m] Fin Thickness
+N_fins = 4;                 % Number of Fins
+
+K_deployed = 0.0102;
+K_retracted = 0.00475;
 
 % Env.
 pad_altitude = 1400;     % [m] Spaceport America Pad Altitude MSL
@@ -31,12 +35,13 @@ motor_prop_mass = 4.766; % [kg] Mass of prop
 motor_dry_mass = motor_wet_mass - motor_prop_mass;
 
 % Control System
-target_alt_agl = 10000; % [ft]
-refresh_time = 0.25; % [s] Refresh time of the airbrakes control system
+target_alt_agl = 10000;         % [ft]
+refresh_time = 0.25;            % [s] Refresh time of the airbrakes control system
+M_burnout = 24.774 + M_ballast; % [kg] Vehicle Burnout Mass
 
-time_lockout = 4.5; % [s] DTEG 7.4.1.1 (Boost phase ended, refine this detection in actual flight code, HAS ENOUGH CONTROL AUTHORITY)
-Q_lockout = false;  %     DTEG 7.4.1.2 (Max. Q lockout Unimplemented)
-alt_lockout = 2000; % [m] DTEG 7.4.1.3.2 (Altitude lockout for 10k flights passed, NOT ENOUGH CONTROL AUTHORITY)
+time_lockout = 3.9; % [s] DTEG 7.4.1.1 (Boost phase ended, refine this detection in actual flight code)
+%Q_lockout = false;  %     DTEG 7.4.1.2 (Implemented by looking at the maximum value of the recorder)
+alt_lockout = 2000; % [m] DTEG 7.4.1.3.2 (Altitude lockout for 10k flights passed)
 
 accel_lockout = 0.0; % [m/s^2] When accel switches to negative then boost is over (NOT IMPLEMENTED)
 
@@ -77,13 +82,14 @@ A = A_fuselage + A_fins; % [m^2] Rocket cross sectional area
 k_vehicle = A * Cd;
 
 % Airbrakes
-A_airbrakes = 0.00614;                    % [m^2]
-Cd_airbrakes = 1.28;                      % Cd of a flat plate
-k_airbrakes = Cd_airbrakes * A_airbrakes; % [m^2]
+%A_airbrakes = 0.00614;                    % [m^2]
+%Cd_airbrakes = 1.28;                      % Cd of a flat plate
+%k_airbrakes = Cd_airbrakes * A_airbrakes; % [m^2]
 %k_airbrakes = 0.0;
 
 % Control System
-k_projectile = k_vehicle + k_airbrakes / 2;
+%k_projectile = k_vehicle + k_airbrakes / 2;
+k_projectile = 0.0075; % the 'gain' we will be using on the flight computer
 
 
 %% Recorder Setup
@@ -100,8 +106,10 @@ r_Th = [];
 r_Cd = [];
 r_Fd = [];
 r_Mach = [];
+r_q = [];
 r_airbrakes_state = [];
 r_apogee_prediction = [];
+r_AB_unlocked = [];
 
 
 %% Run the simulation
@@ -119,6 +127,7 @@ while cont_bool
     %% Calculate Properties at Current SimTime
     t = t + dT;
     iter = iter + 1;
+    z_agl = z - pad_altitude;
 
     %[T, a, P, rho] = atmosisa(z); % SLOW FUNCTION
     [T, a, P, rho] = stdAtm(z);
@@ -152,10 +161,12 @@ while cont_bool
 
     if AB_deployed == true
         % Airbrakes are active
-        Fd = q * (k_airbrakes + k_vehicle);
+        %Fd = q * (k_airbrakes + k_vehicle);
+        Fd = q * K_deployed;
     else
         % Airbrakes are inactive
-        Fd = q * k_vehicle;
+        %Fd = q * k_vehicle;
+        Fd = q * K_retracted;
     end
 
     if z_dot > 0
@@ -197,8 +208,10 @@ while cont_bool
     r_Cd(iter) = Cd;
     r_Fd(iter) = Fd;
     r_Mach(iter) = mach;
+    r_q(iter) = q;
     r_airbrakes_state(iter) = AB_deployed;
     r_apogee_prediction(iter) = apogee_prediction;
+    r_AB_unlocked(iter) = AB_unlocked;
 
 
     %% Calculate z and z_dot for the next timestep
@@ -212,7 +225,8 @@ while cont_bool
     end
 
     %if t > time_lockout
-    if t > time_lockout
+    %if z_agl > alt_lockout
+    if q < max(r_q) && max(r_q) > 1000
         AB_unlocked = true;
     end
    
@@ -236,9 +250,14 @@ r_z_agl = r_z - pad_altitude;
 
 %% Plot Our values
 if true
+    % r_z_agl_retracted = r_z_agl;
+    % r_time_retracted = time;
     % save('simulated_data/retracted_flight.mat', 'r_z_agl_retracted', 'r_time_retracted')
     load('simulated_data/retracted_flight.mat')
-    %save('simulated_data/deployed_flight.mat', 'r_z_agl_deployed', 'r_time_deployed')
+
+    % r_z_agl_deployed = r_z_agl;
+    % r_time_deployed = time;
+    % save('simulated_data/deployed_flight.mat', 'r_z_agl_deployed', 'r_time_deployed')
     load('simulated_data/deployed_flight.mat')
 
     % position
@@ -334,3 +353,21 @@ end
 sim_apogee = max(r_z_agl);
 
 disp(['Apogee: ' num2str(sim_apogee) ' m (' num2str(m_to_f * sim_apogee) ' ft)'])
+
+% Difference betweeen angled and vertical sims apogee results (this sim vs openrocket)
+differnce_offset = (3763 * m_to_f) / 13444;
+
+disp(['Est. Angled Apogee: ' num2str(differnce_offset * m_to_f * sim_apogee) ' ft'])
+
+% Approx. 566 m (1857 ft) of margin
+
+%% Ballast required to bring angled apogee to certain altitudes:
+% Original dry mass: 21.280 kg
+
+% 11802 ft (29.528 m/s (or 96.88 ft/s) launch rail exit velocity)
+% Total mass: 22.330 kg
+% Ballast:    1.050 kg
+
+% 10900 ft (28.583 m/s (or 93.78 ft/s) launch rail exit velocity)
+% Total mass: 24.850 kg
+% Ballast:    3.57 kg
