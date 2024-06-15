@@ -1,0 +1,98 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import rocketpy as rp
+from rocketpy import Environment, Rocket, SolidMotor, Flight
+import datetime
+!pip install netCDF4
+!pip install rocketpy
+env = Environment(
+    latitude=32.990254,
+    longitude=-106.974998,
+    elevation=1400,
+)
+
+tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+
+env.set_date(
+  (tomorrow.year, tomorrow.month, tomorrow.day, 12), timezone="America/Denver"
+) # Tomorrow's date in year, month, day, hour UTC format
+
+env.set_atmospheric_model(type='Forecast', file='GFS')
+env.all_info()
+
+AeroTechM2500 = SolidMotor(
+    thrust_source="/content/drive/MyDrive/motor.eng",
+    dry_mass=3.353,
+    dry_inertia=(0.1633, 0.1633, 0.0041),
+    center_of_dry_mass_position=0.317,
+    grains_center_of_mass_position=0.3175,
+    burn_time=3.9,
+    grain_number=4,
+    grain_separation=0.005,
+    grain_density=1815,
+    grain_outer_radius= 0.0875/2,
+    grain_initial_inner_radius=0.0285/2,
+    grain_initial_height=0.1524,
+    nozzle_radius=0.085/2,
+    throat_radius=0.0354/2,
+    interpolation_method="linear",
+    nozzle_position= -.115, #-0.05,
+    coordinate_system_orientation="nozzle_to_combustion_chamber",
+)
+
+
+AeroTechM2500.plots.draw()
+
+AeroTechM2500.all_info()
+
+currera = Rocket(
+    radius=0.0655, # m
+    mass=22.9,  # without motor, kg
+    inertia=(12.362, 12.362, 0.06), #assume long, long, rot- kg*m^2
+    power_off_drag=0.5,
+    power_on_drag=0.5,
+    center_of_mass_without_motor=1.34, # m (center of gravity in or)
+    coordinate_system_orientation="nose_to_tail",
+)
+
+buttons = currera.set_rail_buttons(
+   upper_button_position= 2, #position is relative to the nose!
+   lower_button_position= 2.52,
+   angular_position=45
+)
+
+currera.add_motor(AeroTechM2500, position= 2.61)
+
+nose = currera.add_nose(
+    length=0.654, kind="vonKarman", position= 0 #m
+)
+
+fins = currera.add_trapezoidal_fins(
+    n=4,
+    root_chord=0.279,
+    tip_chord=0.076,
+    span= 0.105,
+    sweep_length= 0.203,
+    cant_angle=0,
+    position= 2.26
+)
+
+tail = currera.add_tail(
+    top_radius=0.131/2, bottom_radius=0.108/2, length=0.076, position=2.54,
+)
+
+currera.info()
+
+currera.plots.static_margin()
+
+currera.draw()
+
+test_flight = Flight(
+  rocket=currera, environment=env, rail_length=5.2, inclination=85, heading=0
+)
+
+test_flight.plots.trajectory_3d()
+
+test_flight.all_info()
+
+test_flight.export_kml(file_name="test_flight.kml")
